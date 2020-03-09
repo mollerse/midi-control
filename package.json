@@ -1,0 +1,33 @@
+{
+  "name": "@mollerse/dat.gui-midi-control",
+  "version": "1.0.0",
+  "description": "dat.gui with added functionality for controlling params with a midi device",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo 0",
+    "lint": "eslint index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mollerse/dat.gui-midi-control.git"
+  },
+  "keywords": [
+    "dat.gui",
+    "midi",
+    "creative"
+  ],
+  "author": "Stian Møllersen <stian.moellersen@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mollerse/dat.gui-midi-control/issues"
+  },
+  "homepage": "https://github.com/mollerse/dat.gui-midi-control#readme",
+  "devDependencies": {
+    "dat.gui": "^0.7.6",
+    "eslint": "^6.8.0",
+    "prettier": "^1.19.1"
+  }
+}
