@@ -59,9 +59,7 @@ class MidiControl {
                 `Midi Message received: [eventId:${eventId}, keyId:${keyId}, value:${value}]`
               );
             }
-            if (eventId === 144 || eventId === 176) {
-              this.trigger(keyId, normalize(0, 127, value));
-            }
+            this.trigger(`${keyId}.${eventId}`, normalize(0, 127, value));
           };
           this.device.in = input;
         } else {
@@ -111,7 +109,7 @@ class MidiControl {
     }
 
     if (typeof triggerId === "string" || typeof triggerId === "number") {
-      scheme.triggers[triggerId] = v => control.setValue(min + v * (max - min));
+      scheme.triggers[`${triggerId}.${eventId}`] = v => control.setValue(min + v * (max - min));
     } else if (Array.isArray(triggerId) && Math.abs(max - min) / step === 4) {
       let [triggerInc, triggerDec] = triggerId;
 
@@ -132,8 +130,8 @@ class MidiControl {
         this.send(eventId, triggerDec, [0, 0, 0, 13, 15][max - next]);
       };
 
-      scheme.triggers[triggerInc] = triggerFn(1);
-      scheme.triggers[triggerDec] = triggerFn(-1);
+      scheme.triggers[`${triggerInc}.${eventId}`] = triggerFn(1);
+      scheme.triggers[`${triggerDec}.${eventId}`] = triggerFn(-1);
     } else {
       console.error(`Combination of values and triggers not supported`);
     }
@@ -152,7 +150,7 @@ class MidiControl {
     }
 
     if (typeof triggerId === "string" || typeof triggerId === "number") {
-      scheme.triggers[triggerId] = v => {
+      scheme.triggers[`${triggerId}.${eventId}`] = v => {
         if (v === 0) return; // Don't trigger on release
         control.setValue(!control.getValue());
         if (eventId === 176) {
@@ -174,14 +172,14 @@ class MidiControl {
       }
       onChange(value);
 
-      scheme.triggers[triggerOn] = v => {
+      scheme.triggers[`${triggerOn}.${eventId}`] = v => {
         if (v === 0) return; // Don't trigger on release
         control.setValue(true);
         this.send(eventId, triggerOff, eventId === 176 ? 0 : 15);
         this.send(eventId, triggerOn, eventId === 176 ? 15 : 60);
       };
 
-      scheme.triggers[triggerOff] = v => {
+      scheme.triggers[`${triggerOff}.${eventId}`] = v => {
         if (v === 0) return; // Don't trigger on release
         control.setValue(false);
         this.send(eventId, triggerOn, eventId === 176 ? 0 : 15);
