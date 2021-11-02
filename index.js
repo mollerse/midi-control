@@ -26,18 +26,21 @@ function iterativeFind(keyFn, lookup, iterator) {
 }
 
 class MidiControl {
-  constructor(name) {
+  constructor() {
     this.gui = new dat.GUI({ closed: false });
     this.device = { in: null, out: null };
     this.schemes = {};
     this.activeScheme = null;
+    this.debug = false;
+  }
 
+  async init(name) {
     if (!window.navigator.requestMIDIAccess) {
       console.warn("Midi not available, not enabling midi controls.");
       return;
     }
 
-    navigator
+    return navigator
       .requestMIDIAccess()
       .then(access => {
         let inputs = access.inputs.values();
@@ -51,6 +54,11 @@ class MidiControl {
           let input = maybeInput;
           input.onmidimessage = ({ data }) => {
             let [eventId, keyId, value] = data;
+            if (this.debug) {
+              console.log(
+                `Midi Message received: [eventId:${eventId}, keyId:${keyId}, value:${value}]`
+              );
+            }
             if (eventId === 144 || eventId === 176) {
               this.trigger(keyId, normalize(0, 127, value));
             }
@@ -76,9 +84,7 @@ class MidiControl {
 
   addScheme(name) {
     if (this.getSchemes().indexOf(name) > -1) {
-      throw new Error(
-        `Scheme ${name} already exists. Remove existing before adding.`
-      );
+      throw new Error(`Scheme ${name} already exists. Remove existing before adding.`);
     }
     this.schemes[name] = {
       values: {},
@@ -93,7 +99,7 @@ class MidiControl {
   addNumberValue(
     key,
     [value, min = 0, max = value, step = 1],
-    { onChange, triggerId }
+    { onChange, triggerId, eventId = 176 }
   ) {
     let scheme = this.getScheme();
     scheme.values[key] = value;
@@ -106,12 +112,36 @@ class MidiControl {
 
     if (typeof triggerId === "string" || typeof triggerId === "number") {
       scheme.triggers[triggerId] = v => control.setValue(min + v * (max - min));
+    } else if (Array.isArray(triggerId) && Math.abs(max - min) / step === 4) {
+      let [triggerInc, triggerDec] = triggerId;
+
+      this.send(eventId, triggerInc, [15, 13, 0, 0, 0][max - value]);
+      this.send(eventId, triggerDec, [0, 0, 0, 13, 15][max - value]);
+
+      let triggerFn = inc => v => {
+        if (v === 0) return; // Don't trigger on release
+
+        let current = control.getValue();
+        let next = current + inc * step;
+
+        if (next > max) next = max;
+        if (next < min) next = min;
+
+        control.setValue(next);
+        this.send(eventId, triggerInc, [15, 13, 0, 0, 0][max - next]);
+        this.send(eventId, triggerDec, [0, 0, 0, 13, 15][max - next]);
+      };
+
+      scheme.triggers[triggerInc] = triggerFn(1);
+      scheme.triggers[triggerDec] = triggerFn(-1);
+    } else {
+      console.error(`Combination of values and triggers not supported`);
     }
 
     return this;
   }
 
-  addBooleanValue(key, [value], { onChange, triggerId }) {
+  addBooleanValue(key, [value], { onChange, triggerId, eventId = 144 }) {
     let scheme = this.getScheme();
     scheme.values[key] = value;
 
@@ -122,12 +152,43 @@ class MidiControl {
     }
 
     if (typeof triggerId === "string" || typeof triggerId === "number") {
-      scheme.triggers[triggerId] = () => {
+      scheme.triggers[triggerId] = v => {
+        if (v === 0) return; // Don't trigger on release
         control.setValue(!control.getValue());
-        if (this.device.out) {
-          this.device.out.send([144, triggerId, control.getValue() ? 100 : 10]);
+        if (eventId === 176) {
+          this.send(eventId, triggerId, control.getValue() ? 15 : 0);
+        } else {
+          this.send(eventId, triggerId, control.getValue() ? 60 : 15);
         }
       };
+    } else if (Array.isArray(triggerId) && triggerId.length === 2) {
+      let [triggerOn, triggerOff] = triggerId;
+
+      // Set up state based on default value
+      if (value) {
+        this.send(eventId, triggerOff, eventId === 176 ? 0 : 15);
+        this.send(eventId, triggerOn, eventId === 176 ? 15 : 60);
+      } else {
+        this.send(eventId, triggerOn, eventId === 176 ? 0 : 15);
+        this.send(eventId, triggerOff, eventId === 176 ? 15 : 60);
+      }
+      onChange(value);
+
+      scheme.triggers[triggerOn] = v => {
+        if (v === 0) return; // Don't trigger on release
+        control.setValue(true);
+        this.send(eventId, triggerOff, eventId === 176 ? 0 : 15);
+        this.send(eventId, triggerOn, eventId === 176 ? 15 : 60);
+      };
+
+      scheme.triggers[triggerOff] = v => {
+        if (v === 0) return; // Don't trigger on release
+        control.setValue(false);
+        this.send(eventId, triggerOn, eventId === 176 ? 0 : 15);
+        this.send(eventId, triggerOff, eventId === 176 ? 15 : 60);
+      };
+    } else {
+      console.error(`Combination of values and triggers not supported`);
     }
 
     return this;
@@ -203,10 +264,23 @@ class MidiControl {
     trigger && trigger(v);
   }
 
+  send(eventId, keyId, value) {
+    if (this.device.out) {
+      if (this.debug) {
+        console.log(`Midi Message sent: [eventId:${eventId}, keyId:${keyId}, value:${value}]`);
+      }
+      this.device.out.send([eventId, keyId, value]);
+    }
+  }
+
   // Debug-stuff
 
   getSchemes() {
     return Object.keys(this.schemes);
+  }
+
+  enableDebug() {
+    this.debug = true;
   }
 }
 
