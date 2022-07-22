@@ -16,10 +16,10 @@ function normalize(min, max, v) {
   return (v - min) / (max - min);
 }
 
-function iterativeFind(keyFn, lookup, iterator) {
+function iterativeFind(findFn, iterator) {
   let { value, done } = iterator.next();
   while (!done) {
-    if (keyFn(value) === lookup) return value;
+    if (findFn(value)) return value;
 
     ({ value, done } = iterator.next());
   }
@@ -80,7 +80,7 @@ class MidiControl {
       .then((access) => {
         let inputs = access.inputs.values();
         let outputs = access.outputs.values();
-        let findDevice = iterativeFind.bind(null, (v) => v.name, name);
+        let findDevice = iterativeFind.bind(null, (v) => v.name.includes(name));
 
         let maybeInput = findDevice(inputs);
         let maybeOutput = findDevice(outputs);
