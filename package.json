@@ -3,12 +3,12 @@
   "version": "2.1.0",
   "description": "dat.gui with added functionality for controlling params with a midi device",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "echo 0",
-    "lint": "eslint index.js"
+    "test": "echo 0"
   },
   "repository": {
     "type": "git",
@@ -25,15 +25,24 @@
     "url": "https://github.com/mollerse/dat.gui-midi-control/issues"
   },
   "homepage": "https://github.com/mollerse/dat.gui-midi-control#readme",
+  "dependencies": {
+    "dat.gui": "^0.7.9"
+  },
   "devDependencies": {
-    "dat.gui": "^0.7.6",
-    "eslint": "^6.8.0",
-    "prettier": "^1.19.1"
+    "eslint": "^8.20.0",
+    "prettier": "^2.7.1"
   },
   "prettier": {
     "printWidth": 100
   },
-  "eslint": {
-    "extends": "eslint:recommended"
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "browser": true
+    },
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": "latest"
+    }
   }
 }

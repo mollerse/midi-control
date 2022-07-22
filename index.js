@@ -1,7 +1,7 @@
-const dat = require("dat.gui");
+import dat from "dat.gui";
 
 // Patch dat.GUI
-dat.GUI.prototype.removeFolder = function(name) {
+dat.GUI.prototype.removeFolder = function (name) {
   var folder = this.__folders[name];
   if (!folder) {
     return;
@@ -51,7 +51,7 @@ class MidiControl {
 
     return navigator
       .requestMIDIAccess()
-      .then(access => {
+      .then((access) => {
         let inputs = access.inputs.values();
         let outputs = access.outputs.values();
 
@@ -64,7 +64,7 @@ class MidiControl {
         console.log("Scanning outputs...");
         listNames(outputs);
       })
-      .catch(e => {
+      .catch((e) => {
         console.warn(e);
       });
   }
@@ -77,10 +77,10 @@ class MidiControl {
 
     return navigator
       .requestMIDIAccess()
-      .then(access => {
+      .then((access) => {
         let inputs = access.inputs.values();
         let outputs = access.outputs.values();
-        let findDevice = iterativeFind.bind(null, v => v.name, name);
+        let findDevice = iterativeFind.bind(null, (v) => v.name, name);
 
         let maybeInput = findDevice(inputs);
         let maybeOutput = findDevice(outputs);
@@ -108,7 +108,7 @@ class MidiControl {
           console.warn(`No MIDI Output named ${name} found.`);
         }
       })
-      .catch(e => {
+      .catch((e) => {
         console.warn(e);
       });
   }
@@ -122,7 +122,7 @@ class MidiControl {
     this.schemes[name] = {
       values: {},
       triggers: {},
-      gui: this.gui.addFolder(name)
+      gui: this.gui.addFolder(name),
     };
     this.activeScheme = name;
 
@@ -144,14 +144,14 @@ class MidiControl {
     }
 
     if (typeof triggerId === "string" || typeof triggerId === "number") {
-      scheme.triggers[`${triggerId}.${eventId}`] = v => control.setValue(min + v * (max - min));
+      scheme.triggers[`${triggerId}.${eventId}`] = (v) => control.setValue(min + v * (max - min));
     } else if (Array.isArray(triggerId) && Math.abs(max - min) / step === 4) {
       let [triggerInc, triggerDec] = triggerId;
 
       this.send(eventId, triggerInc, [15, 13, 0, 0, 0][max - value]);
       this.send(eventId, triggerDec, [0, 0, 0, 13, 15][max - value]);
 
-      let triggerFn = inc => v => {
+      let triggerFn = (inc) => (v) => {
         if (v === 0) return; // Don't trigger on release
 
         let current = control.getValue();
@@ -185,7 +185,7 @@ class MidiControl {
     }
 
     if (typeof triggerId === "string" || typeof triggerId === "number") {
-      scheme.triggers[`${triggerId}.${eventId}`] = v => {
+      scheme.triggers[`${triggerId}.${eventId}`] = (v) => {
         if (v === 0) return; // Don't trigger on release
         control.setValue(!control.getValue());
         if (eventId === 176) {
@@ -207,14 +207,14 @@ class MidiControl {
       }
       onChange(value);
 
-      scheme.triggers[`${triggerOn}.${eventId}`] = v => {
+      scheme.triggers[`${triggerOn}.${eventId}`] = (v) => {
         if (v === 0) return; // Don't trigger on release
         control.setValue(true);
         this.send(eventId, triggerOff, eventId === 176 ? 0 : 15);
         this.send(eventId, triggerOn, eventId === 176 ? 15 : 60);
       };
 
-      scheme.triggers[`${triggerOff}.${eventId}`] = v => {
+      scheme.triggers[`${triggerOff}.${eventId}`] = (v) => {
         if (v === 0) return; // Don't trigger on release
         control.setValue(false);
         this.send(eventId, triggerOn, eventId === 176 ? 0 : 15);
@@ -317,6 +317,6 @@ class MidiControl {
   }
 }
 
-module.exports = function midiControlFactory(name) {
+export function midiControlFactory(name) {
   return new MidiControl(name);
-};
+}
