@@ -317,6 +317,6 @@ class MidiControl {
   }
 }
 
-export function midiControlFactory(name) {
-  return new MidiControl(name);
+export function midiControl() {
+  return new MidiControl();
 }
