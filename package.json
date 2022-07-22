@@ -1,6 +1,6 @@
 {
   "name": "@mollerse/dat.gui-midi-control",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "dat.gui with added functionality for controlling params with a midi device",
   "main": "index.js",
   "type": "module",
