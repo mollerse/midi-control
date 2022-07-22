@@ -25,6 +25,14 @@ function iterativeFind(keyFn, lookup, iterator) {
   }
 }
 
+function iterativeForEach(forEachFn, iterator) {
+  let { value, done } = iterator.next();
+  while (!done) {
+    forEachFn(value);
+    ({ value, done } = iterator.next());
+  }
+}
+
 class MidiControl {
   constructor() {
     this.gui = new dat.GUI({ closed: false });
@@ -32,6 +40,33 @@ class MidiControl {
     this.schemes = {};
     this.activeScheme = null;
     this.debug = false;
+  }
+
+  // Helper to just list devices, incase you don't know what yours is called.
+  async listDevices() {
+    if (!window.navigator.requestMIDIAccess) {
+      console.warn("Midi not available, not enabling midi controls.");
+      return;
+    }
+
+    return navigator
+      .requestMIDIAccess()
+      .then(access => {
+        let inputs = access.inputs.values();
+        let outputs = access.outputs.values();
+
+        let listNames = iterativeForEach.bind(null, (v) => {
+          console.log(`\tFound device: ${v.name}`);
+        });
+
+        console.log("Scanning inputs...");
+        listNames(inputs);
+        console.log("Scanning outputs...");
+        listNames(outputs);
+      })
+      .catch(e => {
+        console.warn(e);
+      });
   }
 
   async init(name) {
