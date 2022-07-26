@@ -1,7 +1,7 @@
 {
-  "name": "@mollerse/dat.gui-midi-control",
-  "version": "3.0.0",
-  "description": "dat.gui with added functionality for controlling params with a midi device",
+  "name": "@mollerse/midi-control",
+  "version": "1.0.0",
+  "description": "Functionality for binding a control pane (dat.gui or tweakpane) to a MIDI Device",
   "main": "index.js",
   "type": "module",
   "publishConfig": {
@@ -12,22 +12,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mollerse/dat.gui-midi-control.git"
+    "url": "git+https://github.com/mollerse/midi-control.git"
   },
   "keywords": [
-    "dat.gui",
+    "tweakpane",
     "midi",
     "creative"
   ],
   "author": "Stian Møllersen <stian.moellersen@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mollerse/dat.gui-midi-control/issues"
+    "url": "https://github.com/mollerse/midi-control/issues"
   },
-  "homepage": "https://github.com/mollerse/dat.gui-midi-control#readme",
-  "dependencies": {
-    "dat.gui": "^0.7.9"
-  },
+  "homepage": "https://github.com/mollerse/midi-control#readme",
   "devDependencies": {
     "eslint": "^8.20.0",
     "prettier": "^2.7.1"
@@ -44,5 +41,9 @@
       "sourceType": "module",
       "ecmaVersion": "latest"
     }
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.9",
+    "tweakpane": "^3.1.0"
   }
 }
