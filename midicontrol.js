@@ -184,6 +184,8 @@ class MidiControl {
 
   enableDebug() {
     this.#debug = true;
+
+    return this;
   }
 }
 

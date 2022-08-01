@@ -1,4 +1,4 @@
-import dat from "dat.gui";
+import { Pane } from "tweakpane";
 import MidiControl from "./midicontrol.js";
 
 function normalize(min, max, v) {
@@ -19,12 +19,12 @@ function isTriggerPair(triggerId) {
   return Array.isArray(triggerId) && triggerId.length === 2;
 }
 
-class DatGuiMidiControl extends MidiControl {
+class TweakpaneMidiControl extends MidiControl {
   #gui;
 
-  constructor() {
+  constructor(title) {
     super();
-    this.#gui = new dat.GUI({ closed: false });
+    this.#gui = new Pane({ expanded: true, title });
   }
 
   addNumberValue(
@@ -33,26 +33,29 @@ class DatGuiMidiControl extends MidiControl {
     { onChange, triggerId, eventId = 176 }
   ) {
     let { params, uiRef, triggers } = this.getActiveBinding();
+
     params[key] = value;
 
-    let control = uiRef.add(params, key, min, max, step);
+    let control = uiRef.addInput(params, key, { min, max, step });
 
     if (typeof onChange === "function") {
-      control.onChange((value) => onChange({ value }));
+      control.on("change", onChange);
       onChange({ value }); // call onChange with initial value
     }
 
     function basicNumberUpdateFunc(v) {
-      control.setValue(min + N(v) * (max - min));
+      params[key] = min + N(v) * (max - min);
+      control.refresh();
     }
 
     function createIncDecUpdateFunc(inc, v) {
       if (v !== 0) return; // Only trigger on release
 
-      let current = control.getValue();
+      let current = params[key];
       let next = current + inc * step;
 
-      control.setValue(clamp(min, max, next));
+      params[key] = clamp(min, max, next);
+      control.refresh();
     }
 
     let inc = createIncDecUpdateFunc.bind(null, 1);
@@ -66,33 +69,35 @@ class DatGuiMidiControl extends MidiControl {
       triggers[`${triggerInc}.${eventId}`] = inc;
       triggers[`${triggerDec}.${eventId}`] = dec;
     } else {
-      console.error(`Combination of values and triggers not supported`);
+      throw new Error(`Combination of values and triggers not supported`);
     }
 
     return this;
   }
 
-  addBooleanValue(key, [value], { onChange, triggerId, eventId = 144 }) {
+  addBooleanValue(key, [value], { onChange, triggerId, eventId = 128 }) {
     let { params, uiRef, triggers } = this.getActiveBinding();
     params[key] = value;
 
-    let control = uiRef.add(params, key);
+    let control = uiRef.addInput(params, key);
 
     if (typeof onChange === "function") {
-      control.onChange((value) => onChange({ value }));
+      control.on("change", onChange);
       onChange({ value }); // call onChange with initial value
     }
 
     function basicBoolUpdateFunc(v) {
       if (v !== 0) return; // Only trigger on release
 
-      control.setValue(!control.getValue());
+      params[key] = !params[key];
+      control.refresh();
     }
 
     function createOnOffUpdateFunc(on, v) {
       if (v !== 0) return; // Only trigger on release
 
-      control.setValue(on);
+      params[key] = on;
+      control.refresh();
     }
 
     let on = createOnOffUpdateFunc.bind(null, true);
@@ -106,7 +111,7 @@ class DatGuiMidiControl extends MidiControl {
       triggers[`${triggerOn}.${eventId}`] = on;
       triggers[`${triggerOff}.${eventId}`] = off;
     } else {
-      console.error(`Combination of values and triggers not supported`);
+      throw new Error(`Combination of values and triggers not supported`);
     }
 
     return this;
@@ -116,10 +121,10 @@ class DatGuiMidiControl extends MidiControl {
     let { params, uiRef } = this.getActiveBinding();
     params[key] = value;
 
-    let control = uiRef.addColor(params, key);
+    let control = uiRef.addInput(params, key, { color: { alpha: true } });
 
     if (typeof onChange === "function") {
-      control.onChange((value) => onChange({ value }));
+      control.on("change", onChange);
       onChange({ value }); // call onChange with initial value
     }
 
@@ -129,16 +134,15 @@ class DatGuiMidiControl extends MidiControl {
   // Extended methods
   removeBinding(name) {
     let ref = super.removeBinding(name);
-    this.#gui.removeFolder(ref.uiRef);
+    ref.uiRef.remove();
   }
 
   createBinding(name) {
     let ref = super.createBinding(name);
-    ref.uiRef = this.#gui.addFolder(name);
-    ref.uiRef.open();
+    ref.uiRef = this.#gui.addFolder({ title: name, expanded: true });
 
     return this;
   }
 }
 
-export default DatGuiMidiControl;
+export default TweakpaneMidiControl;
