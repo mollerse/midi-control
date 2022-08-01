@@ -1,5 +1,5 @@
-import DatGuiMidiControl from "./datGuiMidiControl";
-import TweakpaneMidiControl from "./tweakpaneMidiControl";
+import DatGuiMidiControl from "./src/datGuiMidiControl";
+import TweakpaneMidiControl from "./src/tweakpaneMidiControl";
 
 export default function midiControlFactory(type, args) {
   if (type === "dat") {

@@ -19,6 +19,10 @@
     "midi",
     "creative"
   ],
+  "files": [
+    "index.js",
+    "src/*"
+  ],
   "author": "Stian Møllersen <stian.moellersen@gmail.com>",
   "license": "MIT",
   "bugs": {
