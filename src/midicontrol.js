@@ -187,6 +187,10 @@ class MidiControl {
 
     return this;
   }
+
+  getDevices() {
+    return { in: this.#inDevice, out: this.#outDevice };
+  }
 }
 
 export default MidiControl;
