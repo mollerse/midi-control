@@ -4,6 +4,10 @@ let controls = midiControl("dat", ["Testing Dat.gui"]);
 
 await controls.init("Launch Control MIDI 1");
 
+function logSomething() {
+  console.log("something");
+}
+
 controls.createBinding("Test");
 controls
   .enableDebug()
@@ -34,4 +38,5 @@ controls
       controls.send(176, 114, value ? 15 : 0);
       controls.send(176, 115, value ? 0 : 15);
     },
-  });
+  })
+  .addEffect("Do something", [logSomething], { triggerId: 9 });

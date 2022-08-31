@@ -131,6 +131,19 @@ class TweakpaneMidiControl extends MidiControl {
     return this;
   }
 
+  addEffect(key, [fn], { triggerId, eventId = 144 }) {
+    let { params, uiRef, triggers } = this.getActiveBinding();
+    params[key] = fn;
+
+    let btn = uiRef.addButton({
+      title: key,
+    });
+
+    btn.on("click", fn);
+
+    triggers[`${triggerId}.${eventId}`] = fn;
+  }
+
   // Extended methods
   removeBinding(name) {
     let ref = super.removeBinding(name);

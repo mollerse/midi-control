@@ -126,6 +126,15 @@ class DatGuiMidiControl extends MidiControl {
     return this;
   }
 
+  addEffect(key, [fn], { triggerId, eventId = 144 }) {
+    let { params, uiRef, triggers } = this.getActiveBinding();
+    params[key] = fn;
+
+    uiRef.add(params, key);
+
+    triggers[`${triggerId}.${eventId}`] = fn;
+  }
+
   // Extended methods
   removeBinding(name) {
     let ref = super.removeBinding(name);
