@@ -38,4 +38,4 @@ controls
       controls.send(176, 115, value ? 0 : 15);
     },
   })
-  .addEffect("Do something", [logSomething], { triggerId: 9 });
+  .addEffect("Do something", [logSomething], { triggerId: 10 });
