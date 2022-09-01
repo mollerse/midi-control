@@ -133,6 +133,8 @@ class DatGuiMidiControl extends MidiControl {
     uiRef.add(params, key);
 
     triggers[`${triggerId}.${eventId}`] = fn;
+
+    return this;
   }
 
   // Extended methods

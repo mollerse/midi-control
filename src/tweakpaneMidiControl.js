@@ -142,6 +142,8 @@ class TweakpaneMidiControl extends MidiControl {
     btn.on("click", fn);
 
     triggers[`${triggerId}.${eventId}`] = fn;
+
+    return this;
   }
 
   // Extended methods
