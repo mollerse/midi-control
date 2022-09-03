@@ -1,16 +1,9 @@
 import dat from "dat.gui";
 import MidiControl from "./midicontrol.js";
 import { clamp, normalize } from "./utils.js";
+import { isBasicTrigger, isTriggerPair } from "./triggers.js";
 
 const N = normalize.bind(null, 0, 127);
-
-function isBasicTrigger(triggerId) {
-  return typeof triggerId === "string" || typeof triggerId === "number";
-}
-
-function isTriggerPair(triggerId) {
-  return Array.isArray(triggerId) && triggerId.length === 2;
-}
 
 class DatGuiMidiControl extends MidiControl {
   #gui;
