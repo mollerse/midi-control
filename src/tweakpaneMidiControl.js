@@ -1,13 +1,6 @@
 import { Pane } from "tweakpane";
 import MidiControl from "./midicontrol.js";
-
-function normalize(min, max, v) {
-  return (v - min) / (max - min);
-}
-
-function clamp(min, max, v) {
-  return v < min ? min : v > max ? max : v;
-}
+import { clamp, normalize } from "./utils.js";
 
 const N = normalize.bind(null, 0, 127);
 
