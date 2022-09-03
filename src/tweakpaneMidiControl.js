@@ -135,7 +135,7 @@ class TweakpaneMidiControl extends MidiControl {
   // Extended methods
   removeBinding(name) {
     let ref = super.removeBinding(name);
-    ref.uiRef.remove();
+    this.#gui.remove(ref.uiRef);
   }
 
   createBinding(name) {

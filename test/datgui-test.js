@@ -40,3 +40,7 @@ controls
     },
   })
   .addEffect("Do something", [logSomething], { triggerId: 10 });
+
+controls.createBinding("toBeRemoved");
+
+setTimeout(() => controls.removeBinding("toBeRemoved"), 1000);
