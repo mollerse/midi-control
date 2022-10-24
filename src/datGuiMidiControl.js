@@ -52,7 +52,7 @@ class DatGuiMidiControl extends MidiControl {
       triggers[`${triggerInc}.${eventId}`] = inc;
       triggers[`${triggerDec}.${eventId}`] = dec;
     } else {
-      console.error(`Combination of values and triggers not supported`);
+      throw new Error(`Combination of triggers not supported`);
     }
 
     return this;
@@ -92,7 +92,7 @@ class DatGuiMidiControl extends MidiControl {
       triggers[`${triggerOn}.${eventId}`] = on;
       triggers[`${triggerOff}.${eventId}`] = off;
     } else {
-      console.error(`Combination of values and triggers not supported`);
+      throw new Error(`Combination of triggers not supported`);
     }
 
     return this;

@@ -55,7 +55,7 @@ class TweakpaneMidiControl extends MidiControl {
       triggers[`${triggerInc}.${eventId}`] = inc;
       triggers[`${triggerDec}.${eventId}`] = dec;
     } else {
-      throw new Error(`Combination of values and triggers not supported`);
+      throw new Error(`Combination of triggers not supported`);
     }
 
     return this;
@@ -97,7 +97,7 @@ class TweakpaneMidiControl extends MidiControl {
       triggers[`${triggerOn}.${eventId}`] = on;
       triggers[`${triggerOff}.${eventId}`] = off;
     } else {
-      throw new Error(`Combination of values and triggers not supported`);
+      throw new Error(`Combination of triggers not supported`);
     }
 
     return this;
