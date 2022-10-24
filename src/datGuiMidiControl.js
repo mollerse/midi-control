@@ -16,7 +16,7 @@ class DatGuiMidiControl extends MidiControl {
   addNumberValue(
     key,
     [value, min = 0, max = value, step = 1],
-    { onChange, triggerId, eventId = 176 }
+    { onChange, triggerId, eventId = 176, triggerValue = 0 }
   ) {
     let { params, uiRef, triggers } = this.getActiveBinding();
     params[key] = value;
@@ -33,7 +33,7 @@ class DatGuiMidiControl extends MidiControl {
     }
 
     function createIncDecUpdateFunc(inc, v) {
-      if (v !== 0) return; // Only trigger on release
+      if (v !== triggerValue) return; // Only trigger for designated values
 
       let current = control.getValue();
       let next = current + inc * step;
@@ -58,7 +58,7 @@ class DatGuiMidiControl extends MidiControl {
     return this;
   }
 
-  addBooleanValue(key, [value], { onChange, triggerId, eventId = 144 }) {
+  addBooleanValue(key, [value], { onChange, triggerId, eventId = 144, triggerValue = 0 }) {
     let { params, uiRef, triggers } = this.getActiveBinding();
     params[key] = value;
 
@@ -70,13 +70,13 @@ class DatGuiMidiControl extends MidiControl {
     }
 
     function basicBoolUpdateFunc(v) {
-      if (v !== 0) return; // Only trigger on release
+      if (v !== triggerValue) return; // Only trigger for designated values
 
       control.setValue(!control.getValue());
     }
 
     function createOnOffUpdateFunc(on, v) {
-      if (v !== 0) return; // Only trigger on release
+      if (v !== triggerValue) return; // Only trigger for designated values
 
       control.setValue(on);
     }
@@ -112,13 +112,17 @@ class DatGuiMidiControl extends MidiControl {
     return this;
   }
 
-  addEffect(key, [fn], { triggerId, eventId = 144 }) {
+  addEffect(key, [fn], { triggerId, eventId = 144, triggerValue = 0 }) {
     let { params, uiRef, triggers } = this.getActiveBinding();
     params[key] = fn;
 
     uiRef.add(params, key);
 
-    triggers[`${triggerId}.${eventId}`] = fn;
+    triggers[`${triggerId}.${eventId}`] = (v) => {
+      if (v !== triggerValue) return; // Only trigger for designated values
+
+      fn();
+    };
 
     return this;
   }

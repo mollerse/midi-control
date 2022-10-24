@@ -16,7 +16,7 @@ class TweakpaneMidiControl extends MidiControl {
   addNumberValue(
     key,
     [value, min = 0, max = value, step = 1],
-    { onChange, triggerId, eventId = 176 }
+    { onChange, triggerId, eventId = 176, triggerValue = 0 }
   ) {
     let { params, uiRef, triggers } = this.getActiveBinding();
 
@@ -35,7 +35,7 @@ class TweakpaneMidiControl extends MidiControl {
     }
 
     function createIncDecUpdateFunc(inc, v) {
-      if (v !== 0) return; // Only trigger on release
+      if (v !== triggerValue) return; // Only trigger for designated values
 
       let current = params[key];
       let next = current + inc * step;
@@ -61,7 +61,7 @@ class TweakpaneMidiControl extends MidiControl {
     return this;
   }
 
-  addBooleanValue(key, [value], { onChange, triggerId, eventId = 128 }) {
+  addBooleanValue(key, [value], { onChange, triggerId, eventId = 128, triggerValue = 0 }) {
     let { params, uiRef, triggers } = this.getActiveBinding();
     params[key] = value;
 
@@ -73,14 +73,14 @@ class TweakpaneMidiControl extends MidiControl {
     }
 
     function basicBoolUpdateFunc(v) {
-      if (v !== 0) return; // Only trigger on release
+      if (v !== triggerValue) return; // Only trigger for designated values
 
       params[key] = !params[key];
       control.refresh();
     }
 
     function createOnOffUpdateFunc(on, v) {
-      if (v !== 0) return; // Only trigger on release
+      if (v !== triggerValue) return; // Only trigger for designated values
 
       params[key] = on;
       control.refresh();
@@ -117,7 +117,7 @@ class TweakpaneMidiControl extends MidiControl {
     return this;
   }
 
-  addEffect(key, [fn], { triggerId, eventId = 144 }) {
+  addEffect(key, [fn], { triggerId, eventId = 144, triggerValue = 0 }) {
     let { params, uiRef, triggers } = this.getActiveBinding();
     params[key] = fn;
 
@@ -127,7 +127,11 @@ class TweakpaneMidiControl extends MidiControl {
 
     btn.on("click", fn);
 
-    triggers[`${triggerId}.${eventId}`] = fn;
+    triggers[`${triggerId}.${eventId}`] = (v) => {
+      if (v !== triggerValue) return; // Only trigger for designated values
+
+      fn();
+    };
 
     return this;
   }
