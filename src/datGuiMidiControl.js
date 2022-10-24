@@ -118,11 +118,15 @@ class DatGuiMidiControl extends MidiControl {
 
     uiRef.add(params, key);
 
-    triggers[`${triggerId}.${eventId}`] = (v) => {
-      if (v !== triggerValue) return; // Only trigger for designated values
+    if (isBasicTrigger(triggerId)) {
+      triggers[`${triggerId}.${eventId}`] = (v) => {
+        if (v !== triggerValue) return; // Only trigger for designated values
 
-      fn();
-    };
+        fn();
+      };
+    } else {
+      throw new Error(`Combination of triggers not supported`);
+    }
 
     return this;
   }
