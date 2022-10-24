@@ -1,6 +1,6 @@
 {
   "name": "@mollerse/midi-control",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Functionality for binding a control pane (dat.gui or tweakpane) to a MIDI Device",
   "main": "index.js",
   "type": "module",
