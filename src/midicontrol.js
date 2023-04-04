@@ -88,13 +88,13 @@ class MidiControl {
   #setupInput(input) {
     this.#inDevice = input;
 
-    this.#inDevice.onmidimessage = ({ data }) => {
+    this.#inDevice.addEventListener("midimessage", ({ data }) => {
       let [eventId, keyId, value] = data;
 
       this.#debugLog(`Midi Message received: [eventId:${eventId}, keyId:${keyId}, value:${value}]`);
 
       this.#trigger(`${keyId}.${eventId}`, value);
-    };
+    });
   }
 
   #setupOutput(output) {
