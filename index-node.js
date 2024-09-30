@@ -1,5 +1,5 @@
 import { MidiControlImpl } from "./src/midicontrol.js";
-import { connect } from "./src/web-midi-connect.js";
+import { connect } from "./src/node-midi-connect.js";
 
 /** @type {MidiControlFactory} */
 export default async function midiControlFactory({ deviceName, title }) {

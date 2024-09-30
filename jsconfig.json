@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "strict": true,
+    "module": "NodeNext",
+    "target": "ES2022",
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": true
+  },
+  "include": [
+    "types.d.ts",
+    "internal-types.d.ts",
+    "index.js",
+    "index-node.js",
+    "src/**/*",
+    "test/**/*"
+  ]
+}
