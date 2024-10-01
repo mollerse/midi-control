@@ -1,6 +1,6 @@
 {
   "name": "@mollerse/midi-control",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "Functionality for binding a control pane (dat.gui or tweakpane) to a MIDI Device",
   "author": "Stian Møllersen <stian.moellersen@gmail.com>",
   "license": "MIT",
