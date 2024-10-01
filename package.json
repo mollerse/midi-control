@@ -22,6 +22,7 @@
   "files": [
     "index.js",
     "index-node.js",
+    "types.d.ts",
     "src/*"
   ],
   "exports": {
