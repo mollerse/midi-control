@@ -15,5 +15,9 @@ setTimeout(() => {
   controls.activateBinding("Test");
 }, 1000);
 
+setTimeout(() => {
+  controls.deactivateBinding("Test");
+}, 2000);
+
 // Keep-alive
 setInterval(() => {}, 100);

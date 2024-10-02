@@ -14,3 +14,7 @@ setTimeout(() => {
   controls.removeBinding("toBeRemoved");
   controls.activateBinding("Test");
 }, 1000);
+
+setTimeout(() => {
+  controls.deactivateBinding("Test");
+}, 2000);

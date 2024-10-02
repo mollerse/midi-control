@@ -1,4 +1,4 @@
-import { Pane } from "tweakpane";
+import { FolderApi, Pane } from "tweakpane";
 
 import { clamp, normalize } from "./lib/utils.js";
 import { isBasicTrigger, isTriggerPair } from "./lib/triggers.js";
@@ -182,10 +182,26 @@ export class MidiControlImpl {
   activateBinding(name) {
     this.#ensureBindingExist(name);
 
-    if (this.#activeBinding === name) return; // noop
-
     this.#debugLog(`Setting "${name}" to active binding.`);
     this.#activeBinding = name;
+
+    let ref = this.#bindings[name];
+    if (ref.uiRef != null) {
+      ref.uiRef.expanded = true;
+    }
+  }
+
+  /**
+   * @param {string} name
+   */
+  deactivateBinding(name) {
+    this.#ensureBindingExist(name);
+
+    this.#debugLog(`Setting "${name}" to inactive.`);
+    let ref = this.#bindings[name];
+    if (ref.uiRef != null) {
+      ref.uiRef.expanded = false;
+    }
   }
 
   /**

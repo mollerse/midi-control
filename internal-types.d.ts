@@ -46,6 +46,7 @@ declare class MidiControl {
   createBinding: (name: string) => void;
   removeBinding: (name: string) => void;
   activateBinding: (name: string) => void;
+  deactivateBinding: (name: string) => void;
 
   enableDebug: () => void;
 
