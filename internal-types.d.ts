@@ -79,4 +79,4 @@ export {
   TriggerConfig,
 };
 
-export as namespace Types;
+export as namespace MidiControl;

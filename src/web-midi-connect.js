@@ -1,10 +1,10 @@
 import { find as iterativeFind, map as iterativeMap } from "./lib/iterator-methods.js";
 
-/** @type {Types.Connector} */
+/** @type {MidiControl.Connector} */
 export async function connect(deviceName) {
-  /** @type {Types.MidiControlInput?} */
+  /** @type {MidiControl.MidiControlInput?} */
   let midiInput = null;
-  /** @type {Types.MidiControlOutput?} */
+  /** @type {MidiControl.MidiControlOutput?} */
   let midiOutput = null;
 
   if (!window.navigator.requestMIDIAccess) {

@@ -22,6 +22,7 @@
     "index.js",
     "index-node.js",
     "types.d.ts",
+    "internal-types.d.ts",
     "src/*"
   ],
   "types": "./types.d.ts",
