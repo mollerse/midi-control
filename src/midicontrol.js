@@ -190,8 +190,9 @@ export class MidiControlImpl {
 
   /**
    * @param {string} key
+   * @returns {MidiControl.Value}
    */
-  getValue(key) {
+  #getValue(key) {
     if (!this.#activeBinding) {
       throw new Error("No active binding.");
     }
@@ -199,6 +200,46 @@ export class MidiControlImpl {
     let { params } = this.#bindings[this.#activeBinding];
 
     return params[key];
+  }
+
+  /**
+   * Not actually enforced, use at your own risk.
+   *
+   * @param {string} key
+   * @returns {number}
+   */
+  getNumberValue(key) {
+    return /** @type {number} */ (this.#getValue(key));
+  }
+
+  /**
+   * Not actually enforced, use at your own risk.
+   *
+   * @param {string} key
+   * @returns {boolean}
+   */
+  getBooleanValue(key) {
+    return /** @type {boolean} */ (this.#getValue(key));
+  }
+
+  /**
+   * Not actually enforced, use at your own risk.
+   *
+   * @param {string} key
+   * @returns {string}
+   */
+  getStringValue(key) {
+    return /** @type {string} */ (this.#getValue(key));
+  }
+
+  /**
+   * Not actually enforced, use at your own risk.
+   *
+   * @param {string} key
+   * @returns {MidiControl.Effect}
+   */
+  getEffect(key) {
+    return /** @type {MidiControl.Effect} */ (this.#getValue(key));
   }
 
   enableDebug() {

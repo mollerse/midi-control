@@ -47,10 +47,14 @@ declare class MidiControl {
   removeBinding: (name: string) => void;
   activateBinding: (name: string) => void;
 
-  send: (messageType: number, keyId: number, value: number) => void;
-  getValue: (key: string) => Value;
-
   enableDebug: () => void;
+
+  send: (messageType: number, keyId: number, value: number) => void;
+
+  getNumberValue: (key: string) => number;
+  getBooleanValue: (key: string) => boolean;
+  getStringValue: (key: string) => string;
+  getEffect: (key: string) => Effect;
 
   addNumberValue: (key: string, value: NumberConfig, trigger: TriggerConfig<number>) => MidiControl;
   addBooleanValue: (
