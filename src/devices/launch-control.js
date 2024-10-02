@@ -33,24 +33,28 @@ export const BUTTONS = {
   right: 0x75,
 };
 
-/** @type {Record.<string, number>} */
+/** @type {Record.<string, Record.<string, number>>} */
 export const KNOBS = {
-  1: 0x15,
-  2: 0x16,
-  3: 0x17,
-  4: 0x18,
-  5: 0x19,
-  6: 0x1a,
-  7: 0x1b,
-  8: 0x1c,
-  9: 0x29,
-  10: 0x2a,
-  11: 0x2b,
-  12: 0x2c,
-  13: 0x2d,
-  14: 0x2e,
-  15: 0x2f,
-  16: 0x30,
+  1: {
+    1: 0x15,
+    2: 0x16,
+    3: 0x17,
+    4: 0x18,
+    5: 0x19,
+    6: 0x1a,
+    7: 0x1b,
+    8: 0x1c,
+  },
+  2: {
+    1: 0x29,
+    2: 0x2a,
+    3: 0x2b,
+    4: 0x2c,
+    5: 0x2d,
+    6: 0x2e,
+    7: 0x2f,
+    8: 0x30,
+  },
 };
 
 /** @type {Record.<typeof USER | typeof FACTORY, Record.<string, number>>} */

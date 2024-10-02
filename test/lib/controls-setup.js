@@ -8,7 +8,7 @@ import {
 } from "../../src/devices/launch-control.js";
 
 /**
- * @param {MidiControl} controls
+ * @param {MidiControl.MidiControl} controls
  */
 export function setupTestBinding(controls) {
   function logSomething() {
@@ -24,7 +24,7 @@ export function setupTestBinding(controls) {
       "testnumber",
       { initial: 0, min: -100, max: 100, step: 1 },
       {
-        keyId: KNOBS[1],
+        keyId: KNOBS[1][1],
         messageType: MESSAGES[TEMPLATES.user].knob,
       },
     )
