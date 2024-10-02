@@ -17,7 +17,6 @@
     "midi",
     "creative"
   ],
-  "main": "index-node.js",
   "type": "module",
   "files": [
     "index.js",
@@ -25,12 +24,13 @@
     "types.d.ts",
     "src/*"
   ],
+  "types": "./types.d.ts",
   "exports": {
     ".": {
-      "types": "./types.d.ts",
       "node": "./index-node.js",
       "browser": "./index.js",
-      "default": "./index.js"
+      "default": "./index.js",
+      "types": "./types.d.ts"
     },
     "./devices/launch-control.js": "./src/devices/launch-control.js"
   },

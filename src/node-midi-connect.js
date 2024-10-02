@@ -1,7 +1,7 @@
 import midi from "midi";
 
 /**
- * @implements {MidiControlOutput}
+ * @type {Types.MidiControlOutput}
  */
 class NodeMidiOutput {
   #device;
@@ -22,7 +22,7 @@ class NodeMidiOutput {
 }
 
 /**
- * @implements {MidiControlInput}
+ * @type {Types.MidiControlInput}
  */
 class NodeMidiInput {
   #device;
@@ -36,7 +36,7 @@ class NodeMidiInput {
 
   /**
    * @param {"midimessage"} _
-   * @param {(this: MidiControlInput, ev: MidiControlMessage) => any} listener
+   * @param {(this: Types.MidiControlInput, ev: Types.MidiControlMessage) => any} listener
    */
   addEventListener(_, listener) {
     /**
@@ -54,7 +54,7 @@ class NodeMidiInput {
   }
 }
 
-/** @type {Connector} */
+/** @type {Types.Connector} */
 export async function connect(deviceName) {
   let midiInput = null;
   let midiOutput = null;
