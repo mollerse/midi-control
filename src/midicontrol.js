@@ -1,4 +1,4 @@
-import { FolderApi, Pane } from "tweakpane";
+import { Pane } from "tweakpane";
 
 import { clamp, normalize } from "./lib/utils.js";
 import { isBasicTrigger, isTriggerPair } from "./lib/triggers.js";
