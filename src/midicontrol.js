@@ -57,7 +57,13 @@ export class MidiControlImpl {
 
       let [eventId, keyId, value] = data;
 
-      this.#debugLog(`Midi Message received: [eventId:${eventId}, keyId:${keyId}, value:${value}]`);
+      this.#debugLog(
+        `Midi Message received: [
+\teventId:${eventId}/0x${eventId.toString(16)},
+\tkeyId:${keyId}/0x${keyId.toString(16)},
+\tvalue:${value}/0x${value.toString(16)}
+]`,
+      );
 
       this.#trigger(`${keyId}.${eventId}`, value);
     });
