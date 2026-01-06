@@ -51,6 +51,7 @@
   "devDependencies": {
     "@eslint/js": "^9.11.1",
     "@tweakpane/core": "^2.0.4",
+    "@types/midi": "^2.0.4",
     "eslint": "^9.11.1",
     "globals": "^17.0.0",
     "prettier": "^3.3.3",
