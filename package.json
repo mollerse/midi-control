@@ -33,7 +33,8 @@
       "default": "./index.js",
       "types": "./types.d.ts"
     },
-    "./devices/launch-control.js": "./src/devices/launch-control.js"
+    "./devices/launch-control.js": "./src/devices/launch-control.js",
+    "./devices/midi-mix.js": "./src/devices/midi-mix.js"
   },
   "publishConfig": {
     "access": "public"
