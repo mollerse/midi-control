@@ -1,4 +1,6 @@
 import { find as iterativeFind, map as iterativeMap } from "./lib/iterator-methods.js";
+import { normalize as n } from './lib/normalize-device-name.js';
+
 
 /** @type {MidiControl.Connector} */
 export async function connect(deviceName) {
@@ -12,14 +14,16 @@ export async function connect(deviceName) {
     return { midiInput, midiOutput };
   }
 
+  let normalizedDeviceName = n(deviceName.toLocaleLowerCase())
+
   try {
     let access = await navigator.requestMIDIAccess();
 
     let inputs = access.inputs.values();
     let outputs = access.outputs.values();
 
-    let maybeInput = iterativeFind((v) => (v.name || "").includes(deviceName), inputs);
-    let maybeOutput = iterativeFind((v) => (v.name || "").includes(deviceName), outputs);
+    let maybeInput = iterativeFind((v) => n(v.name || "").includes(normalizedDeviceName), inputs);
+    let maybeOutput = iterativeFind((v) => n(v.name || "").includes(normalizedDeviceName), outputs);
 
     if (maybeInput) {
       midiInput = maybeInput;

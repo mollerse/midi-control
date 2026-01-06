@@ -103,4 +103,4 @@ export const SPECIAL_MESSAGES = {
   fullBrightnessTest: [0xb0, 0x00, 0x7f],
 };
 
-export const NAME = "launch control";
+export const NAME = "Launch Control";

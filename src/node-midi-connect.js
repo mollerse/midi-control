@@ -1,5 +1,7 @@
 import midi from "midi";
 
+import { normalize as n } from './lib/normalize-device-name.js';
+
 /**
  * @type {MidiControl.MidiControlOutput}
  */
@@ -64,11 +66,13 @@ export async function connect(deviceName) {
 
   let portNumber = null;
 
+  let normalizedDeviceName = n(deviceName)
+
   for (let i = 0; i < output.getPortCount(); i++) {
     /** @type {string} */
-    let portName = output.getPortName(i);
+    let portName = n(output.getPortName(i));
 
-    if (portName.includes(deviceName)) {
+    if (portName.includes(normalizedDeviceName)) {
       portNumber = i;
       break;
     }
@@ -76,7 +80,7 @@ export async function connect(deviceName) {
 
   if (portNumber == null) {
     output.closePort();
-    console.warn(`No output with name ${deviceName} found.`);
+    console.warn(`No output with name ${normalizedDeviceName} found.`);
   } else {
     output.openPort(portNumber);
     midiOutput = new NodeMidiOutput(output);
@@ -86,16 +90,16 @@ export async function connect(deviceName) {
 
   for (let i = 0; i < input.getPortCount(); i++) {
     /** @type {string} */
-    let portName = input.getPortName(i);
+    let portName = n(input.getPortName(i));
 
-    if (portName.includes(deviceName)) {
+    if (portName.includes(normalizedDeviceName)) {
       portNumber = i;
       break;
     }
   }
   if (portNumber == null) {
     input.closePort();
-    console.warn(`No input with name ${deviceName} found.`);
+    console.warn(`No input with name ${normalizedDeviceName} found.`);
   } else {
     input.openPort(portNumber);
     midiInput = new NodeMidiInput(input);

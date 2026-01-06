@@ -1,8 +1,9 @@
 import midiControl from "../../index-node.js";
+import { NAME } from "../../src/devices/launch-control.js";
 import { setupTestBinding } from "../lib/controls-setup.js";
 
 let controls = await midiControl({
-  deviceName: "Launch Control MIDI 1",
+  deviceName: NAME,
   title: "Testing Tweakpane",
 });
 
