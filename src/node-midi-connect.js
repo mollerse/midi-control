@@ -1,6 +1,6 @@
 import midi from "midi";
 
-import { normalize as n } from './lib/normalize-device-name.js';
+import { normalize as n } from "./lib/normalize-device-name.js";
 
 /**
  * @type {MidiControl.MidiControlOutput}
@@ -66,7 +66,7 @@ export async function connect(deviceName) {
 
   let portNumber = null;
 
-  let normalizedDeviceName = n(deviceName)
+  let normalizedDeviceName = n(deviceName);
 
   for (let i = 0; i < output.getPortCount(); i++) {
     /** @type {string} */

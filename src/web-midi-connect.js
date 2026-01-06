@@ -1,6 +1,5 @@
 import { find as iterativeFind, map as iterativeMap } from "./lib/iterator-methods.js";
-import { normalize as n } from './lib/normalize-device-name.js';
-
+import { normalize as n } from "./lib/normalize-device-name.js";
 
 /** @type {MidiControl.Connector} */
 export async function connect(deviceName) {
@@ -14,7 +13,7 @@ export async function connect(deviceName) {
     return { midiInput, midiOutput };
   }
 
-  let normalizedDeviceName = n(deviceName.toLocaleLowerCase())
+  let normalizedDeviceName = n(deviceName.toLocaleLowerCase());
 
   try {
     let access = await navigator.requestMIDIAccess();

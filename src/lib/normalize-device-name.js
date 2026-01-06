@@ -3,5 +3,5 @@
  * @param {string} str
  */
 export function normalize(str) {
-  return str.toLowerCase()
+  return str.toLowerCase();
 }
