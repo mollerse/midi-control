@@ -61,5 +61,11 @@
   },
   "prettier": {
     "printWidth": 100
+  },
+  "engine": {
+    "node": ">14"
+  },
+  "volta": {
+    "node": "24.12.0"
   }
 }
