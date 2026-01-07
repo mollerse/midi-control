@@ -8,8 +8,8 @@
     "skipLibCheck": true
   },
   "include": [
-    "types.d.ts",
-    "internal-types.d.ts",
+    "src/types/types.d.ts",
+    "src/types/internal-types.d.ts",
     "index.js",
     "index-node.js",
     "src/**/*",

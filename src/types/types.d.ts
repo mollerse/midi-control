@@ -1,4 +1,4 @@
-import type { MidiControl } from "./internal-types.d.ts";
+import type { MidiControl } from "../../internal-types.js";
 
 declare function midiControlFactory(params: MidiControlFactoryParams): Promise<MidiControl>;
 
