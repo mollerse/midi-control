@@ -34,8 +34,10 @@ type OnChangeConfig<T extends Value> = {
   onChange?: (event: { value: T }) => void;
 };
 
+type KeyId = number | [number, number];
+
 type MidiConfig = {
-  keyId: number | [number, number];
+  keyId: KeyId;
   messageType: number;
   value?: number;
 };
@@ -75,13 +77,11 @@ export {
   Connector,
   Effect,
   Value,
+  KeyId,
   NumberConfig,
   BooleanConfig,
   ColorConfig,
   EffectConfig,
   OnChangeConfig,
-  MidiConfig,
   TriggerConfig,
 };
-
-export as namespace MidiControl;

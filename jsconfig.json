@@ -7,12 +7,5 @@
     "moduleResolution": "NodeNext",
     "skipLibCheck": true
   },
-  "include": [
-    "src/types/types.d.ts",
-    "src/types/internal-types.d.ts",
-    "index.js",
-    "index-node.js",
-    "src/**/*",
-    "test/**/*"
-  ]
+  "include": ["types/**/*", "src/**/*", "test/**/*"]
 }

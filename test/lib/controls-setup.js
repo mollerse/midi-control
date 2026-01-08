@@ -8,7 +8,11 @@ import {
 } from "../../src/devices/launch-control.js";
 
 /**
- * @param {MidiControl.MidiControl} controls
+ * @import {MidiControl} from '../../types/internal-types.js'
+ */
+
+/**
+ * @param {MidiControl} controls
  */
 export function setupTestBinding(controls) {
   function logSomething() {

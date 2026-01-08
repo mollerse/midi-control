@@ -4,7 +4,7 @@
  * @param {number} lower lower bound
  * @param {number} upper upper bound
  * @param {number} v value to normalize
- * @returns {number}
+ * @returns {number} number between 0 and 1
  */
 export function normalize(lower, upper, v) {
   return (v - lower) / (upper - lower);
@@ -16,7 +16,7 @@ export function normalize(lower, upper, v) {
  * @param {number} min lower bound
  * @param {number} max upper bound
  * @param {number} v value to clamp
- * @returns
+ * @returns {number} number between min and max
  */
 export function clamp(min, max, v) {
   return v < min ? min : v > max ? max : v;

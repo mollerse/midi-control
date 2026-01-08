@@ -1,11 +1,15 @@
-import { find as iterativeFind, map as iterativeMap } from "./lib/iterator-methods.js";
-import { normalize as n } from "./lib/normalize-device-name.js";
+import { find as iterativeFind, map as iterativeMap } from "./util/iterator-methods.js";
+import { normalize as n } from "./domain/normalize-device-name.js";
 
-/** @type {MidiControl.Connector} */
+/**
+ * @import {MidiControlOutput, MidiControlInput, Connector} from '../../types/internal-types.js'
+ */
+
+/** @type {Connector} */
 export async function connect(deviceName) {
-  /** @type {MidiControl.MidiControlInput?} */
+  /** @type {MidiControlInput?} */
   let midiInput = null;
-  /** @type {MidiControl.MidiControlOutput?} */
+  /** @type {MidiControlOutput?} */
   let midiOutput = null;
 
   if (!window.navigator.requestMIDIAccess) {

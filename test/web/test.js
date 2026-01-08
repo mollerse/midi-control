@@ -1,4 +1,4 @@
-import midiControl from "../../index.js";
+import midiControl from "../../src/index.js";
 import { NAME } from "../../src/devices/launch-control.js";
 import { setupTestBinding } from "../lib/controls-setup.js";
 

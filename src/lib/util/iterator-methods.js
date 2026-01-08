@@ -1,4 +1,6 @@
 /**
+ * A variant of find that accepts an iterator
+ *
  * @template T
  * @param {(el: T) => boolean} findFn
  * @param {IterableIterator<T>} iterator
@@ -14,6 +16,8 @@ export function find(findFn, iterator) {
 }
 
 /**
+ * A variant of map that accepts an iterator
+ *
  * @template T,V
  * @param {(el: T) => V} mapFn
  * @param {IterableIterator<T>} iterator

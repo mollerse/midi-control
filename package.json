@@ -19,19 +19,15 @@
   ],
   "type": "module",
   "files": [
-    "index.js",
-    "index-node.js",
-    "types.d.ts",
-    "internal-types.d.ts",
-    "src/*"
+    "src/*",
+    "types/*"
   ],
-  "types": "./src/types/types.d.ts",
   "exports": {
     ".": {
-      "types": "./src/types/types.d.ts",
-      "node": "./index-node.js",
-      "browser": "./index.js",
-      "default": "./index.js"
+      "types": "./types/types.d.ts",
+      "node": "./src/index-node.js",
+      "browser": "./src/index.js",
+      "default": "./src/index.js"
     },
     "./devices/launch-control.js": "./src/devices/launch-control.js",
     "./devices/midi-mix.js": "./src/devices/midi-mix.js"
@@ -41,7 +37,10 @@
   },
   "scripts": {
     "test:web": "vite ./test/web",
-    "test:node": "node ./test/node/test.js"
+    "test:node": "node ./test/node/test.js",
+    "lint": "eslint .",
+    "format": "prettier . -w",
+    "typecheck": "tsc -p ./jsconfig.json --noEmit"
   },
   "dependencies": {
     "tweakpane": "^4.0.4"

@@ -1,25 +1,31 @@
 import { Pane } from "tweakpane";
 
-import { clamp, normalize } from "./lib/utils.js";
-import { isBasicTrigger, isTriggerPair } from "./lib/triggers.js";
+import { clamp, normalize } from "./util/number.js";
+import { isBasicTrigger, isTriggerPair } from "./domain/triggers.js";
+
+/**
+ * @import {MidiControlOutput, MidiControlInput, MidiControl, Value, Effect, NumberConfig, BooleanConfig, ColorConfig, EffectConfig, TriggerConfig, OnChangeConfig} from '../../types/internal-types.js'
+ * @import {BindingApi, FolderApi} from '@tweakpane/core'
+ */
+
 /**
  * @typedef {(v: number) => void} Trigger
  * @typedef {`${number}.${number}`} TriggerId
  *
- * @typedef {Record.<string, MidiControl.Value>} Params
+ * @typedef {Record.<string, Value>} Params
  * @typedef {Record.<TriggerId, Trigger>} Triggers
  *
  * @typedef {Object} Binding
  * @property {Params} params
  * @property {Triggers} triggers
- * @property {import("@tweakpane/core").FolderApi?} uiRef
+ * @property {FolderApi?} uiRef
  */
 
-/** @type {MidiControl.MidiControl} */
+/** @type {MidiControl} */
 export class MidiControlImpl {
-  /** @type {MidiControl.MidiControlOutput?} */
+  /** @type {MidiControlOutput?} */
   #outDevice;
-  /** @type {MidiControl.MidiControlInput?} */
+  /** @type {MidiControlInput?} */
   #inDevice;
   /** @type {Record.<string, Binding>} */
   #bindings = {};
@@ -31,8 +37,8 @@ export class MidiControlImpl {
   #gui = null;
 
   /**
-   * @param {MidiControl.MidiControlInput?} input
-   * @param {MidiControl.MidiControlOutput?} output
+   * @param {MidiControlInput?} input
+   * @param {MidiControlOutput?} output
    * @param {string} title
    */
   constructor(input, output, title) {
@@ -177,7 +183,7 @@ export class MidiControlImpl {
 
     let ref = this.#bindings[name];
     if (this.#gui) {
-      this.#gui.remove(/** @type {import('tweakpane').FolderApi} */ (ref.uiRef));
+      this.#gui.remove(/** @type {FolderApi} */ (ref.uiRef));
     }
     delete this.#bindings[name];
   }
@@ -212,7 +218,7 @@ export class MidiControlImpl {
 
   /**
    * @param {string} key
-   * @returns {MidiControl.Value}
+   * @returns {Value}
    */
   #getValue(key) {
     if (!this.#activeBinding) {
@@ -258,10 +264,10 @@ export class MidiControlImpl {
    * Not actually enforced, use at your own risk.
    *
    * @param {string} key
-   * @returns {MidiControl.Effect}
+   * @returns {Effect}
    */
   getEffect(key) {
-    return /** @type {MidiControl.Effect} */ (this.#getValue(key));
+    return /** @type {Effect} */ (this.#getValue(key));
   }
 
   enableDebug() {
@@ -270,10 +276,10 @@ export class MidiControlImpl {
 
   /**
    * @param {string} key
-   * @param {MidiControl.NumberConfig} value
-   * @param {MidiControl.TriggerConfig<number>} trigger
+   * @param {NumberConfig} value
+   * @param {TriggerConfig<number>} trigger
    *
-   * @returns {MidiControl.MidiControl}
+   * @returns {MidiControl}
    */
   addNumberValue(key, value, trigger) {
     let { params, uiRef, triggers } = this.#getActiveBinding();
@@ -289,7 +295,7 @@ export class MidiControlImpl {
 
     params[key] = initial;
 
-    /** @type {import('@tweakpane/core').BindingApi?} */
+    /** @type {BindingApi?} */
     let control = null;
     if (uiRef) {
       control = uiRef.addBinding(params, key, { min, max, step });
@@ -351,9 +357,9 @@ export class MidiControlImpl {
 
   /**
    * @param {string} key
-   * @param {MidiControl.BooleanConfig} value
-   * @param {MidiControl.TriggerConfig<boolean>} trigger
-   * @returns {MidiControl.MidiControl}
+   * @param {BooleanConfig} value
+   * @param {TriggerConfig<boolean>} trigger
+   * @returns {MidiControl}
    */
   addBooleanValue(key, value, trigger) {
     let { params, uiRef, triggers } = this.#getActiveBinding();
@@ -428,9 +434,9 @@ export class MidiControlImpl {
 
   /**
    * @param {string} key
-   * @param {MidiControl.ColorConfig} value
-   * @param {MidiControl.OnChangeConfig<string>} trigger
-   * @returns {MidiControl.MidiControl}
+   * @param {ColorConfig} value
+   * @param {OnChangeConfig<string>} trigger
+   * @returns {MidiControl}
    */
   addColorValue(key, value, trigger) {
     let { params, uiRef } = this.#getActiveBinding();
@@ -453,9 +459,9 @@ export class MidiControlImpl {
 
   /**
    * @param {string} key
-   * @param {MidiControl.EffectConfig} value
-   * @param {MidiControl.TriggerConfig<MidiControl.Effect>} trigger
-   * @returns {MidiControl.MidiControl}
+   * @param {EffectConfig} value
+   * @param {TriggerConfig<Effect>} trigger
+   * @returns {MidiControl}
    */
   addEffect(key, value, trigger) {
     let { params, uiRef, triggers } = this.#getActiveBinding();
