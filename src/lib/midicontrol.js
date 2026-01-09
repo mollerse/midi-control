@@ -65,10 +65,10 @@ export class MidiControlImpl {
 
       this.#debugLog(
         `Midi Message received: [
-\teventId:${eventId}/0x${eventId.toString(16)},
-\tkeyId:${keyId}/0x${keyId.toString(16)},
-\tvalue:${value}/0x${value.toString(16)}
-]`,
+          \teventId:${eventId}/0x${eventId.toString(16)},
+          \tkeyId:${keyId}/0x${keyId.toString(16)},
+          \tvalue:${value}/0x${value.toString(16)}
+        ]`.replace(/ {2}/g, ""),
       );
 
       this.#trigger(`${keyId}.${eventId}`, value);
@@ -116,7 +116,14 @@ export class MidiControlImpl {
   send(eventId, keyId, value) {
     if (!this.#outDevice) return;
 
-    this.#debugLog(`Midi Message sent: [eventId:${eventId}, keyId:${keyId}, value:${value}]`);
+    this.#debugLog(
+      `Midi Message sent: [
+          \teventId:${eventId}/0x${eventId.toString(16)},
+          \tkeyId:${keyId}/0x${keyId.toString(16)},
+          \tvalue:${value}/0x${value.toString(16)}
+        ]`.replace(/ {2}/g, ""),
+    );
+
     this.#outDevice.send([eventId, keyId, value]);
   }
 
