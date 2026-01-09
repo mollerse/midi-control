@@ -1,5 +1,5 @@
 import midiControl from "../../src/index-node.js";
-import { NAME } from "../../src/devices/launch-control.js";
+import { NAME } from "../../src/devices/nanokontrol.js";
 import initialize from "../lib/initialize.js";
 
 let controls = await midiControl({
