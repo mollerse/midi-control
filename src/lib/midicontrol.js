@@ -127,6 +127,19 @@ export class MidiControlImpl {
     this.#outDevice.send([eventId, keyId, value]);
   }
 
+  /**
+   * @param {number[]} data
+   */
+  sendSysEx(data) {
+    if (!this.#outDevice) return;
+
+    this.#debugLog(
+      `Midi SysEx Message sent: [${data.map((d) => `0x${d.toString(16)}`).join(", ")}]`,
+    );
+
+    this.#outDevice.send(data);
+  }
+
   #getActiveBinding() {
     if (!this.#activeBinding) {
       throw new Error("Cannot get active binding, no active binding exists.");

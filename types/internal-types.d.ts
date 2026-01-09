@@ -53,6 +53,7 @@ declare class MidiControl {
   enableDebug: () => void;
 
   send: (messageType: number, keyId: number, value: number) => void;
+  sendSysEx: (data: number[]) => void;
 
   getNumberValue: (key: string) => number;
   getBooleanValue: (key: string) => boolean;

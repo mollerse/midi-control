@@ -20,7 +20,7 @@ export async function connect(deviceName) {
   let normalizedDeviceName = n(deviceName.toLocaleLowerCase());
 
   try {
-    let access = await navigator.requestMIDIAccess();
+    let access = await navigator.requestMIDIAccess({ sysex: true });
 
     let inputs = access.inputs.values();
     let outputs = access.outputs.values();
