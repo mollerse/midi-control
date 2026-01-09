@@ -1,5 +1,5 @@
 declare interface MidiControlMessage {
-  readonly data: Uint8Array;
+  readonly data: number[];
 }
 
 declare class MidiControlInput {

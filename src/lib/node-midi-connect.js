@@ -50,8 +50,7 @@ class NodeMidiInput {
    */
   addEventListener(_type, listener) {
     this.#device.on("message", (_deltaTime, message) => {
-      let data = new Uint8Array(message);
-      listener.call(this, { data });
+      listener.call(this, { data: message });
     });
   }
 }
