@@ -5,25 +5,17 @@ import {
   MESSAGES,
   PADS,
   TEMPLATES,
-} from "../../src/devices/launch-control.js";
+} from "../../../src/devices/launch-control.js";
 
 /**
- * @import {MidiControl} from '../../types/internal-types.js'
+ * @import {MidiControl} from '../../../types/internal-types.js'
  */
 
 /**
  * @param {MidiControl} controls
  */
-export function setupTestBinding(controls) {
-  function logSomething() {
-    console.log("something");
-  }
-
-  controls.createBinding("Test");
-  controls.enableDebug();
-
+export default function initialize(controls) {
   controls
-    .addColorValue("testcolor", { initial: "#ff00ffff" }, {})
     .addNumberValue(
       "testnumber",
       { initial: 0, min: -100, max: 100, step: 1 },
@@ -91,7 +83,11 @@ export function setupTestBinding(controls) {
     )
     .addEffect(
       "Do something",
-      { initial: logSomething },
+      {
+        initial: function () {
+          console.log("something");
+        },
+      },
       { keyId: 10, messageType: MESSAGES[TEMPLATES.user].padOff },
     );
 }

@@ -1,13 +1,13 @@
 import midiControl from "../../src/index-node.js";
 import { NAME } from "../../src/devices/launch-control.js";
-import { setupTestBinding } from "../lib/controls-setup.js";
+import initialize from "../lib/initialize.js";
 
 let controls = await midiControl({
   deviceName: NAME,
   title: "Testing Tweakpane",
 });
 
-setupTestBinding(controls);
+initialize(controls, NAME);
 
 controls.createBinding("toBeRemoved");
 
