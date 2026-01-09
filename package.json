@@ -1,6 +1,6 @@
 {
   "name": "@mollerse/midi-control",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Functionality for binding a tweakpane pane to a MIDI Device",
   "author": "Stian Møllersen <stian.moellersen@gmail.com>",
   "license": "MIT",
