@@ -30,7 +30,8 @@
       "default": "./src/index.js"
     },
     "./devices/launch-control.js": "./src/devices/launch-control.js",
-    "./devices/midi-mix.js": "./src/devices/midi-mix.js"
+    "./devices/midi-mix.js": "./src/devices/midi-mix.js",
+    "./devices/nanokontrol.js": "./src/devices/nanokontrol.js"
   },
   "publishConfig": {
     "access": "public"
