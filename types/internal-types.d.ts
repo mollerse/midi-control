@@ -5,7 +5,7 @@ declare interface MidiControlMessage {
 declare class MidiControlInput {
   addEventListener(
     type: "midimessage",
-    listener: (this: MidiControlInput, ev: MidiControlMessage) => any,
+    listener: (this: MidiControlInput, ev: MidiControlMessage) => void,
   ): void;
 }
 
