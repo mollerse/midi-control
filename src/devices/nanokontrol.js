@@ -39,7 +39,7 @@ export const BUTTONS = {
   2: {
     solo: 0x21,
     mute: 0x31,
-    recArm: 0x42,
+    recArm: 0x41,
   },
   3: {
     solo: 0x22,
