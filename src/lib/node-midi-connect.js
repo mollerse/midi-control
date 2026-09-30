@@ -55,7 +55,7 @@ class NodeMidiInput {
   }
 }
 
-/** @type {Connector} */
+/** @type {typeof Connector} */
 export async function connect(deviceName) {
   /** @type {MidiControlInput?} */
   let midiInput = null;

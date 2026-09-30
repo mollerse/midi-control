@@ -4,7 +4,7 @@ import { NAME as midiMix } from "../../src/devices/midi-mix.js";
 
 import initializeNanokontrol from "./devices/nanokontrol.test.js";
 import initializeLaunchControl from "./devices/launch-control.test.js";
-// import initializeMidiMix from './devices/midi-mix.test.js'
+import initializeMidiMix from "./devices/midi-mix.test.js";
 
 /**
  * @import {MidiControl} from '../../types/internal-types.js'
@@ -24,7 +24,7 @@ export default function initialize(controls, name) {
   let initializeDevice = {
     [launchControl]: initializeLaunchControl,
     [nanokontrol]: initializeNanokontrol,
-    [midiMix]: null,
+    [midiMix]: initializeMidiMix,
   }[name];
 
   if (initializeDevice == null) {

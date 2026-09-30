@@ -1,15 +1,12 @@
-const USER = "user";
-const FACTORY = "factory";
+/** @import * as Types from '../../types/devices/launch-control.d.ts' */
 
-/**
- * @type {{user: typeof USER, factory: typeof FACTORY}}
- */
+/** @type {typeof Types.TEMPLATES} */
 export const TEMPLATES = {
-  user: USER,
-  factory: FACTORY,
+  user: "user",
+  factory: "factory",
 };
 
-/** @type {Record.<string, number>} */
+/** @type {typeof Types.PADS} */
 export const PADS = {
   1: 0x09,
   2: 0x0a,
@@ -21,11 +18,8 @@ export const PADS = {
   8: 0x1c,
 };
 
-/**
- * @type {Record.<string, number>}
- *
- * Buttons only has a single red LED.
- */
+// Buttons only has a single red LED.
+/** @type {typeof Types.BUTTONS} */
 export const BUTTONS = {
   up: 0x72,
   down: 0x73,
@@ -33,7 +27,7 @@ export const BUTTONS = {
   right: 0x75,
 };
 
-/** @type {Record.<string, Record.<string, number>>} */
+/** @type {typeof Types.KNOBS} */
 export const KNOBS = {
   1: {
     1: 0x15,
@@ -57,15 +51,15 @@ export const KNOBS = {
   },
 };
 
-/** @type {Record.<typeof USER | typeof FACTORY, Record.<string, number>>} */
+/** @type {typeof Types.MESSAGES} */
 export const MESSAGES = {
-  [USER]: {
+  [TEMPLATES.user]: {
     knob: 0xb0,
     padOn: 0x90,
     padOff: 0x80,
     button: 0xb0,
   },
-  [FACTORY]: {
+  [TEMPLATES.factory]: {
     knob: 0xb8,
     padOn: 0x98,
     padOff: 0x88,
@@ -73,7 +67,7 @@ export const MESSAGES = {
   },
 };
 
-/** @type {Record.<string, number>} */
+/** @type {typeof Types.VALUES} */
 export const VALUES = {
   knobHigh: 0x7f,
   knobLow: 0x00,
@@ -83,7 +77,7 @@ export const VALUES = {
   padUp: 0x00,
 };
 
-/** @type {Record.<string, number>} */
+/** @type {typeof Types.LIGHTS} */
 export const LIGHTS = {
   off: 0x0c,
   redLow: 0x0d,
@@ -95,7 +89,7 @@ export const LIGHTS = {
   greenFull: 0x3c,
 };
 
-/** @type {Record.<string, [number, number, number]>} */
+/** @type {typeof Types.SPECIAL_MESSAGES} */
 export const SPECIAL_MESSAGES = {
   reset: [0xb0, 0x00, 0x00],
   lowBrightnessTest: [0xb0, 0x00, 0x7d],
@@ -103,4 +97,5 @@ export const SPECIAL_MESSAGES = {
   fullBrightnessTest: [0xb0, 0x00, 0x7f],
 };
 
+/** @type {typeof Types.NAME} */
 export const NAME = "Launch Control";

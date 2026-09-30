@@ -5,7 +5,7 @@ import { normalize as n } from "./domain/normalize-device-name.js";
  * @import {MidiControlOutput, MidiControlInput, Connector} from '../../types/internal-types.js'
  */
 
-/** @type {Connector} */
+/** @type {typeof Connector} */
 export async function connect(deviceName) {
   /** @type {MidiControlInput?} */
   let midiInput = null;

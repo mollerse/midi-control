@@ -1,11 +1,14 @@
-/** @import { MidiControl } from '../../types/internal-types.js' */
+/** @import * as Types from '../../types/devices/nanokontrol.d.ts' */
 
+/** @type {typeof Types.NAME} */
 export const NAME = "nanoKONTROL2";
 
+/** @type {typeof Types.TRACKS} */
 export const TRACKS = /** @type {const} */ ([1, 2, 3, 4, 5, 6, 7, 8]);
+/** @type {typeof Types.FEATURES} */
 export const FEATURES = /** @type {const} */ (["KNOB", "SLIDER", "BUTTON"]);
 
-/** @type {Record.<typeof TRACKS[number], number>} */
+/** @type {typeof Types.KNOBS} */
 export const KNOBS = {
   1: 0x10,
   2: 0x11,
@@ -17,7 +20,7 @@ export const KNOBS = {
   8: 0x17,
 };
 
-/** @type {Record.<typeof TRACKS[number], number>} */
+/** @type {typeof Types.SLIDERS} */
 export const SLIDERS = {
   1: 0x0,
   2: 0x1,
@@ -29,7 +32,7 @@ export const SLIDERS = {
   8: 0x7,
 };
 
-/** @type {Record.<typeof TRACKS[number], { solo: number, mute: number, recArm: number }>} */
+/** @type {typeof Types.BUTTONS} */
 export const BUTTONS = {
   1: {
     solo: 0x20,
@@ -73,6 +76,7 @@ export const BUTTONS = {
   },
 };
 
+/** @type {typeof Types.GLOBAL_BUTTONS} */
 export const GLOBAL_BUTTONS = {
   track: { next: 0x3a, previous: 0x3b },
   marker: { set: 0x3c, next: 0x3d, previous: 0x3e },
@@ -84,6 +88,7 @@ export const GLOBAL_BUTTONS = {
   record: 0x2d,
 };
 
+/** @type {typeof Types.MESSAGES} */
 export const MESSAGES = {
   button: 0xb0,
   knob: 0xb0,
@@ -91,20 +96,20 @@ export const MESSAGES = {
   light: 0xb0,
 };
 
+/** @type {typeof Types.VALUES} */
 export const VALUES = {
   button: { down: 0x7f, up: 0x0 },
   knob: { high: 0x7f, low: 0x0 },
   slider: { high: 0x7f, low: 0x0 },
 };
 
+/** @type {typeof Types.LIGHTS} */
 export const LIGHTS = {
   off: 0x0,
   on: 0x7f,
 };
 
-/**
- * @param {MidiControl} controls
- */
+/** @type {typeof Types.enableExternalControlOfLEDs} */
 export function enableExternalControlOfLEDs(controls) {
   /**
    * This magic string of messages is lifted from

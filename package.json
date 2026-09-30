@@ -29,9 +29,18 @@
       "browser": "./src/index.js",
       "default": "./src/index.js"
     },
-    "./devices/launch-control.js": "./src/devices/launch-control.js",
-    "./devices/midi-mix.js": "./src/devices/midi-mix.js",
-    "./devices/nanokontrol.js": "./src/devices/nanokontrol.js"
+    "./devices/launch-control.js": {
+      "types": "./types/devices/launch-control.d.ts",
+      "default": "./src/devices/launch-control.js"
+    },
+    "./devices/midi-mix.js": {
+      "types": "./types/devices/midi-mix.d.ts",
+      "default": "./src/devices/midi-mix.js"
+    },
+    "./devices/nanokontrol.js": {
+      "types": "./types/devices/nanokontrol.d.ts",
+      "default": "./src/devices/nanokontrol.js"
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -50,20 +59,20 @@
     "midi": "^2.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.11.1",
+    "@eslint/js": "^10.0.1",
     "@tweakpane/core": "^2.0.4",
     "@types/midi": "^2.0.4",
-    "eslint": "^9.11.1",
-    "globals": "^17.0.0",
-    "prettier": "^3.3.3",
-    "typescript": "^5.6.2",
-    "vite": "^7.3.0"
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.9",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1"
   },
   "prettier": {
     "printWidth": 100
   },
-  "engine": {
-    "node": ">14"
+  "engines": {
+    "node": ">= 22.0"
   },
   "volta": {
     "node": "24.12.0"

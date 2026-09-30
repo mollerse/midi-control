@@ -4,8 +4,7 @@
     "strict": true,
     "module": "NodeNext",
     "target": "ES2022",
-    "moduleResolution": "NodeNext",
-    "skipLibCheck": true
+    "moduleResolution": "NodeNext"
   },
   "include": ["types/**/*", "src/**/*", "test/**/*"]
 }

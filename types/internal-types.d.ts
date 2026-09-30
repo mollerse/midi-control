@@ -15,7 +15,7 @@ declare class MidiControlOutput {
 
 declare function Connector(
   deviceName: string,
-): Promise<{ midiInput: MidiControlInput?; midiOutput: MidiControlOutput? }>;
+): Promise<{ midiInput: MidiControlInput | null; midiOutput: MidiControlOutput | null }>;
 
 type Effect = () => void;
 type Value = number | string | boolean | Effect;
