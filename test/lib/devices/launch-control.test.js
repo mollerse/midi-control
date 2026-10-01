@@ -50,12 +50,14 @@ export default function initialize(controls) {
           controls.send(
             MESSAGES[TEMPLATES.user].button,
             BUTTONS.right,
-            [LIGHTS.redFull, LIGHTS.redLow, LIGHTS.off, LIGHTS.off, LIGHTS.off][2 - value],
+            [LIGHTS.redFull, LIGHTS.redLow, LIGHTS.off, LIGHTS.off, LIGHTS.off][2 - value] ??
+              LIGHTS.off,
           );
           controls.send(
             MESSAGES[TEMPLATES.user].button,
             BUTTONS.left,
-            [LIGHTS.off, LIGHTS.off, LIGHTS.off, LIGHTS.redLow, LIGHTS.redFull][2 - value],
+            [LIGHTS.off, LIGHTS.off, LIGHTS.off, LIGHTS.redLow, LIGHTS.redFull][2 - value] ??
+              LIGHTS.off,
           );
         },
       },

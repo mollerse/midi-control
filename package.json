@@ -62,10 +62,12 @@
     "@eslint/js": "^10.0.1",
     "@tweakpane/core": "^2.0.4",
     "@types/midi": "^2.0.4",
+    "@types/node": "^22.0.0",
     "eslint": "^10.11.0",
     "globals": "^17.12.0",
     "prettier": "^3.9.9",
-    "typescript": "^7.0.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.0",
     "vite": "^8.3.1"
   },
   "prettier": {

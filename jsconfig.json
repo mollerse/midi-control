@@ -1,10 +1,18 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "checkJs": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "maxNodeModuleJsDepth": 0,
+    "noEmit": true,
+    "noUncheckedIndexedAccess": true,
     "strict": true,
     "module": "NodeNext",
     "target": "ES2022",
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": false,
+    "types": ["node"]
   },
   "include": ["types/**/*", "src/**/*", "test/**/*"]
 }

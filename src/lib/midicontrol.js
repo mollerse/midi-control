@@ -61,17 +61,25 @@ export class MidiControlImpl {
     this.#inDevice.addEventListener("midimessage", ({ data }) => {
       if (data == null) return;
 
-      let [eventId, keyId, value] = data;
+      if (data.length === 3) {
+        let [eventId, keyId, value] = /** @type {[number, number, number]} */ (data);
 
-      this.#debugLog(
-        `Midi Message received: [
+        this.#debugLog(
+          `Midi Message received: [
           \teventId:${eventId}/0x${eventId.toString(16)},
           \tkeyId:${keyId}/0x${keyId.toString(16)},
           \tvalue:${value}/0x${value.toString(16)}
         ]`.replace(/ {2}/g, ""),
-      );
+        );
 
-      this.#trigger(`${keyId}.${eventId}`, value);
+        this.#trigger(`${keyId}.${eventId}`, value);
+      } else {
+        // NOTE: Unknown message format
+
+        this.#debugLog(
+          `Midi Message received: [${Array.from(data, (d) => d.toString(16)).join(", ")}]`,
+        );
+      }
     });
   }
 
@@ -141,21 +149,31 @@ export class MidiControlImpl {
   }
 
   #getActiveBinding() {
-    if (!this.#activeBinding) {
+    if (this.#activeBinding == null) {
       throw new Error("Cannot get active binding, no active binding exists.");
     }
 
-    return this.#bindings[this.#activeBinding];
+    let binding = this.#bindings[this.#activeBinding];
+
+    if (binding == null) {
+      throw new Error("Active binding does not exist.");
+    }
+
+    return binding;
   }
 
   /**
    * @param {string} name
-   * @throws {Error}
+   * @returns {Binding}
    */
-  #ensureBindingExist(name) {
-    if (!Object.keys(this.#bindings).includes(name)) {
+  #getBinding(name) {
+    const binding = this.#bindings[name];
+
+    if (binding == null) {
       throw new Error(`Cannot operate on unknown binding ${name}.`);
     }
+
+    return binding;
   }
 
   /**
@@ -192,7 +210,7 @@ export class MidiControlImpl {
    * @param {string} name
    */
   removeBinding(name) {
-    this.#ensureBindingExist(name);
+    let binding = this.#getBinding(name);
 
     if (this.#activeBinding === name) {
       this.#activeBinding = null;
@@ -201,9 +219,8 @@ export class MidiControlImpl {
       );
     }
 
-    let ref = this.#bindings[name];
     if (this.#gui) {
-      this.#gui.remove(/** @type {FolderApi} */ (ref.uiRef));
+      this.#gui.remove(/** @type {FolderApi} */ (binding.uiRef));
     }
     delete this.#bindings[name];
   }
@@ -212,14 +229,13 @@ export class MidiControlImpl {
    * @param {string} name
    */
   activateBinding(name) {
-    this.#ensureBindingExist(name);
+    let binding = this.#getBinding(name);
 
     this.#debugLog(`Setting "${name}" to active binding.`);
     this.#activeBinding = name;
 
-    let ref = this.#bindings[name];
-    if (ref.uiRef != null) {
-      ref.uiRef.expanded = true;
+    if (binding.uiRef != null) {
+      binding.uiRef.expanded = true;
     }
   }
 
@@ -227,12 +243,12 @@ export class MidiControlImpl {
    * @param {string} name
    */
   deactivateBinding(name) {
-    this.#ensureBindingExist(name);
+    let binding = this.#getBinding(name);
 
     this.#debugLog(`Setting "${name}" to inactive.`);
-    let ref = this.#bindings[name];
-    if (ref.uiRef != null) {
-      ref.uiRef.expanded = false;
+
+    if (binding.uiRef != null) {
+      binding.uiRef.expanded = false;
     }
   }
 
@@ -241,13 +257,16 @@ export class MidiControlImpl {
    * @returns {Value}
    */
   #getValue(key) {
-    if (!this.#activeBinding) {
-      throw new Error("No active binding.");
+    let binding = this.#getActiveBinding();
+
+    let { params } = binding;
+    let value = params[key];
+
+    if (value == null) {
+      throw new Error(`No value with key "${key}" exists in the active binding.`);
     }
 
-    let { params } = this.#bindings[this.#activeBinding];
-
-    return params[key];
+    return value;
   }
 
   /**
