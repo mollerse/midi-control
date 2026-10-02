@@ -48,9 +48,11 @@
   "scripts": {
     "test:web": "vite ./test/web",
     "test:node": "node ./test/node/test.js",
-    "lint": "eslint .",
-    "format": "prettier . -w",
-    "typecheck": "tsc -p ./jsconfig.json --noEmit"
+    "check:format": "prettier . --check",
+    "check:lint": "eslint .",
+    "check:types": "tsc -p ./jsconfig.json",
+    "check": "npm run check:format && npm run check:lint && npm run check:types",
+    "prepublishOnly": "npm run check"
   },
   "dependencies": {
     "tweakpane": "^4.0.4"
