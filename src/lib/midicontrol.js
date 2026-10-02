@@ -59,8 +59,6 @@ export class MidiControlImpl {
     if (!this.#inDevice) return;
 
     this.#inDevice.addEventListener("midimessage", ({ data }) => {
-      if (data == null) return;
-
       if (data.length === 3) {
         let [eventId, keyId, value] = /** @type {[number, number, number]} */ (data);
 
@@ -76,9 +74,7 @@ export class MidiControlImpl {
       } else {
         // NOTE: Unknown message format
 
-        this.#debugLog(
-          `Midi Message received: [${Array.from(data, (d) => d.toString(16)).join(", ")}]`,
-        );
+        this.#debugLog(`Midi Message received: [${data.map((d) => d.toString(16)).join(", ")}]`);
       }
     });
   }

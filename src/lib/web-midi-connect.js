@@ -2,7 +2,7 @@ import { find as iterativeFind, map as iterativeMap } from "./util/iterator-meth
 import { normalize as n } from "./domain/normalize-device-name.js";
 
 /**
- * @import {MidiControlOutput, MidiControlInput, Connector} from '../../types/internal-types.js'
+ * @import {MidiControlOutput, MidiControlInput, MidiControlMessage, Connector} from '../../types/internal-types.js'
  */
 
 /** @type {typeof Connector} */
@@ -29,7 +29,7 @@ export async function connect(deviceName) {
     let maybeOutput = iterativeFind((v) => n(v.name || "").includes(normalizedDeviceName), outputs);
 
     if (maybeInput) {
-      midiInput = maybeInput;
+      midiInput = new WebMidiInput(maybeInput);
     } else {
       console.warn(`No MIDI Input named ${deviceName} found.`);
     }
@@ -46,6 +46,33 @@ export async function connect(deviceName) {
   }
 
   return { midiInput, midiOutput };
+}
+
+/**
+ * Adapts the browser MIDI input event to the shared internal message interface.
+ * @implements {MidiControlInput}
+ */
+class WebMidiInput {
+  #device;
+
+  /**
+   * @param {MIDIInput} device
+   */
+  constructor(device) {
+    this.#device = device;
+  }
+
+  /**
+   * @param {"midimessage"} type
+   * @param {(this: MidiControlInput, ev: MidiControlMessage) => void} listener
+   */
+  addEventListener(type, listener) {
+    this.#device.addEventListener(type, ({ data }) => {
+      if (data == null) return;
+
+      listener.call(this, { data: Array.from(data) });
+    });
+  }
 }
 
 /**
